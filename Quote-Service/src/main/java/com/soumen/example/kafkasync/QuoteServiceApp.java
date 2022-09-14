@@ -1,29 +1,42 @@
-package com.soumen.example.kafkasync.consumer;
+package com.soumen.example.kafkasync;
 
-import com.soumen.example.kafkasync.consumer.service.QuoteGenerator;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+@SpringBootApplication
+public class QuoteServiceApp {
+
+    public static void main(String[] args) {
+        SpringApplication.run(QuoteServiceApp.class, args);
+    }
+
+}
+
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class KafkaConsumer {
-    private static final String RANDOM_QUOTE = "RANDOM_Q";
-    private final QuoteGenerator quoteGenerator;
+class KafkaConsumer {
 
     @KafkaListener(groupId = "${app.consumer-group}", topics = "${app.send-topic}")
     @SendTo
+    @SneakyThrows
     public Message<?> listen(ConsumerRecord<String, Object> consumerRecord) {
-        Object value = consumerRecord.value();
+        var value = consumerRecord.value();
         log.info("Message : {}", value);
-        return MessageBuilder.withPayload(quoteGenerator.getRandomQuote()).build();
+        return MessageBuilder.withPayload(getRandomQuote()).build();
     }
 
-
+    private Object getRandomQuote() {
+        return "M Gandhi,An eye for an eye will make the whole world blind";
+    }
 }

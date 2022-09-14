@@ -6,10 +6,9 @@ import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
 @EnableKafka
-public class KafkaSyncApplication {
-
+public class ControllerEngineApp {
 	public static void main(String[] args) {
-		SpringApplication.run(KafkaSyncApplication.class, args);
+		SpringApplication.run(ControllerEngineApp.class, args);
 	}
 
 }
