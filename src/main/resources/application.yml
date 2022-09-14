@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: sync-kafka-demo
+  kafka:
+    bootstrap-servers: iopref-kafka-1:9092
+app:
+  send-topic: test-topic
+  reply-topic: reply-topic
+  consumer-group: test-kafka-grp
